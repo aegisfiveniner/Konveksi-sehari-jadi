@@ -1,0 +1,12 @@
+[
+  {
+    "name" : "admin",
+    "phone" : "0888",
+    "address" : "Jakarta"
+  },
+  {
+    "name" : "user",
+    "phone" : "0889",
+    "address" : "Bandung"
+  }
+]
