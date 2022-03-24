@@ -1,7 +1,16 @@
+const { Motive } = require("../models")
+
 class Controller {
     static home(req, res) {
-        res.render("home")
+        Motive.findAll()
+        .then((result) => {
+            res.render("home", {result})
+        })
+        .catch((err) => {
+            res.send(err)
+        })
     } 
 }
 
 module.exports = Controller
+
