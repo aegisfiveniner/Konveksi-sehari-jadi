@@ -1,0 +1,22 @@
+[
+  {
+    "city" : "Bekasi",
+    "price" : 10000
+  },
+  {
+    "city" : "Jakarta",
+    "price" : 10000
+  },
+  {
+    "city" : "Bogor",
+    "price" : 20000
+  },
+  {
+    "city" : "Bandung",
+    "price" : 30000
+  },
+  {
+    "city" : "Depok",
+    "price" : 10000
+  }
+]
