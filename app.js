@@ -9,7 +9,8 @@ app.set("view engine", "ejs")
 
 
 app.get('/', Controller.home)
-
+app.get('/order/:motiveId', Controller.order)
+app.post('/order/:motiveId', Controller.saveOrder)
 //get register
 
 app.get("/register", Controller.regForm)
