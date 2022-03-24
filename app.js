@@ -6,9 +6,24 @@ const port = 3000
 app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs")
 
+
+
 app.get('/', Controller.home)
-app.get('/order/:id', Controller.order)
+
+//get register
+
+app.get("/register", Controller.regForm)
+app.post("/register", Controller.regPost)
+app.get("/login", Controller.loginForm)
+app.post("/login", Controller.loginCheck)
+
+
+
+//post register
+
+// app.get('/order/:id', Controller.order)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
