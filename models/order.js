@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.City)
       this.belongsTo(models.Profile)
-      this.belongsTo(models.User)
+      this.belongsTo(models.Motive)
     }
   }
   Order.init({

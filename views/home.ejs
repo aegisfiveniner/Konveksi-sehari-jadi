@@ -7,7 +7,6 @@
     <title>Welcome to Konveksi Sehari Jadi</title>
 </head>
 <body>
-    
     <button><a href="">Keranjang</a></button>
     <button><a href="">Login</a></button>
     <button><a href="/logout">Logout</a></button>
@@ -17,13 +16,13 @@
         <% motives.forEach(x => { %>
             <tr>
                 <td>
-                    <img width="100" src="<%= x.pictureUrl %> " alt="panjang-kerah" border="0">
+                    <img width="100" src="<%= x.pictureUrl %>" alt="panjang-kerah" border="0">
                     <br>
                     <p><%= x.thePrice %> </p>
-                    <button><a href="/pesan/<%= x.id %>">Buy</a></button>
+                    <button><a href="/order/<%= x.id %>">Buy</a></button>
                 </td>
             </tr>
         <% }) %>
     </table>
-    </body>
-    </html>
+</body>
+</html>

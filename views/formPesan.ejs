@@ -8,24 +8,27 @@
 </head>
 <body>
     <h1>Form Pemesanan</h1>
-    <form action="" method="POST">
-        <img src="<img width="100" src="https://i.ibb.co/WszChLt/panjang-kerah.png" alt="panjang-kerah" border="0">" alt="">
-
-    <select id="size" name="size">
+    <form action="/order/<%= motive.id %>" method="POST">
+        <img width="500" src="<%= motive.pictureUrl %>" alt="panjang-kerah" border="0">
+    <br>
+    <br>
+    <select style="margin-left: 3cm" id="size" name="size">
         <option value="S">S</option>
         <option value="M">M</option>
         <option value="L">L</option>
         <option value="XL">XL</option>
     </select>
-    <select id="model" name="model">
-        <option value="1">Kaos Lengan Panjang</option>
-        <option value="2">Kaos Lengan Pendek</option>
-        <option value="3">Kerah Lengan Panjang</option>
-        <option value="4">Kerah Lengan Pendek</option>
+    <select style="margin-left: 1cm" id="model" name="model">
+        <option value="Kaos Lengan Panjang">Kaos Lengan Panjang</option>
+        <option value="Kaos Lengan Pendek">Kaos Lengan Pendek</option>
+        <option value="Kerah Lengan Panjang">Kerah Lengan Panjang</option>
+        <option value="Kerah Lengan Pendek">Kerah Lengan Pendek</option>
     </select>
-    <input type="sumbit" value="Tambahkan ke keranjang">
-    </form> 
-    <button><a href="">Belanja Lagi</a></button>
-    <button><a href="">Checkout</a></button>
+    <br>
+    <br>
+    <input type="submit" value="Tambahkan ke keranjang">
+    </form>
+    <br>
+    <button><a href="/">Cancel</a></button>
 </body>
 </html>
