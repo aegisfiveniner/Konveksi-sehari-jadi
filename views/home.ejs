@@ -7,11 +7,22 @@
     <title>Welcome to Konveksi Sehari Jadi</title>
 </head>
 <body>
-    <button><a href="">Keranjang</a></button>
-    <button><a href="">Login</a></button>
-    <button><a href="/logout">Logout</a></button>
+    <button>
+        <a href="/cart">Keranjang</a>
+    </button>
+    <% if (!IDuser) { %>
+        <button>
+            <a href="/login">Login</a>
+        </button>
+        <% } else { %> 
+        <button>
+            <a href="/logout">Logout</a>
+        </button>
+        <% } %>
     <h1>Katalog</h1>
-   
+    <form action="/?sort" method="get">
+        <input type="submit" value="Sort Harga Termahal" name="sort">
+    </form>
     <table>
         <% motives.forEach(x => { %>
             <tr>

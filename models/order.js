@@ -15,6 +15,14 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Profile)
       this.belongsTo(models.Motive)
     }
+
+    static getTotal (orderList, ongkir) {
+      let total = ongkir[0]
+      orderList.forEach(x => {
+        total += x.Motive.price
+      });
+      return total
+    }
   }
   Order.init({
     size: DataTypes.STRING,
