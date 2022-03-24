@@ -130,12 +130,21 @@ class Controller {
       return Order.create(data)
     })
     .then(() => {
-    res.send({motives, profiles})
-    //   return Order.findAll({
-    //     include : ['Motives', 'Profiles']
-    //   })
-    // }).then(orderList => {
-    //   res.send(orderList)
+    // res.send({motives, profiles})
+      return Profile.findByPk(2, {
+        include : { 
+          model : Order,
+          include : Motive
+         }
+      })
+    }).then(orderList => {
+      // res.send(orderList)
+      const orderan = orderList.Orders
+      let total = ongkirs[0]
+      orderan.forEach(x => {
+        total += x.Motive.price
+      });
+      res.render('keranjang', { orderList , orderan, ongkirs, total})
     })
     .catch(err => {
       console.log(err);
