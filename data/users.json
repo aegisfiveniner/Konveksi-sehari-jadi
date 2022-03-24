@@ -2,13 +2,13 @@
   {
     "username" : "admin",
     "password" : "admin",
-    "UserId" : "1",
+    "ProfileId" : "1",
     "role" : "admin"
   },
   {
     "username" : "user",
     "password" : "user",
-    "UserId" : "2",
+    "ProfileId" : "2",
     "role" : "user"
   }
 ]

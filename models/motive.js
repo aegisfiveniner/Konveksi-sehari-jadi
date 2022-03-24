@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Order)
       this.belongsToMany(
         models.Profile, {
-          through: 'Order'
+          through: models.Order
         }
       )
     }
@@ -24,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         style: 'currency',
         currency: 'IDR'
       })
-
       return idr.format(this.price)
     }
   }

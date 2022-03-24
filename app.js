@@ -7,7 +7,8 @@ app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs")
 
 app.get('/', Controller.home)
-app.get('/order/:id', Controller.order)
+app.get('/order/:motiveId', Controller.order)
+app.post('/order/:motiveId', Controller.saveOrder)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
