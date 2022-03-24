@@ -2,7 +2,8 @@
 
 
 const { Motive, User, Profile, City, Order } = require('../models/index');
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const ongkir = require('../helpers/ongkir');
 
 class Controller {
   static home(req, res) {
