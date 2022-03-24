@@ -18,6 +18,15 @@ module.exports = (sequelize, DataTypes) => {
         }
       )
     }
+
+    get thePrice () {
+      let idr = Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      })
+
+      return idr.format(this.price)
+    }
   }
   Motive.init({
     pictureUrl: DataTypes.STRING,

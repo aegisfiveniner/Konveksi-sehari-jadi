@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register Form</h1>
+    <form action="/register" method="POST">
+        <label for="">Username</label><br>
+        <input type="text" name="username">  <br><br>
+        <label for="">Password</label><br>
+        <input type="password" name="password">  <br><br>
+        <label for="">Full Name</label><br>
+        <input type="text" name="name">  <br><br>
+        <label for="">Phone</label><br>
+        <input type="text" name="phone">  <br><br>
+        <label for="">City</label><br>
+        <select name="address">
+            <% cities.forEach(el => { %>
+                <option value="<%= el.id %>">
+                    <%= el.city %>
+                </option>
+            <% }); %>
+        </select><br><br>
+        <input type="submit" value="Sign up">
+    </form>
+    
+
+</body>
+</html>
