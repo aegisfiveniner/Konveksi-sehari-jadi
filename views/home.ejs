@@ -12,40 +12,16 @@
     <h1>Katalog</h1>
    
     <table>
-        <tr>
-            <td>
-                <img width="100" src="https://i.ibb.co/WszChLt/panjang-kerah.png" alt="panjang-kerah" border="0">
-                <br>
-                <button><a href="">Buy</a></button>
-            </td>
-            <td>
-                <img width="100" src="https://i.ibb.co/1QXNQYm/pendek-kaos.png" alt="pendek-kaos" border="0">
-                <br>
-                <button><a href="">Buy</a></button>
-            </td>
-            <td>
-                <img width="100" src="https://i.ibb.co/Gpw3cYW/panjang-kerah-sport.png" alt="panjang-kerah-sport" border="0">
-                <br>
-                <button><a href="">Buy</a></button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <img width="100" src="https://i.ibb.co/dK61qbn/pendek-kerah.png" alt="pendek-kerah" border="0">
-                <br>
-                <button><a href="">Buy</a></button>
-            </td>
-            <td>
-                <img width="100" src="https://i.ibb.co/609PDwm/pendek-kaos-banteng.png" alt="pendek-kaos-banteng" border="0">
-                <br>
-                <button><a href="">Buy</a></button>
-            </td>
-            <td>
-                <img width="100" src="https://i.ibb.co/LdmWWQF/panjang-kaos-biru.png" alt="panjang-kaos-biru" border="0">
-                <br>
-                <button><a href="">Buy</a></button>
-            </td>
-        </tr>
+        <% motives.forEach(x => { %>
+            <tr>
+                <td>
+                    <img width="100" src="<%= x.pictureUrl %> " alt="panjang-kerah" border="0">
+                    <br>
+                    <p><%= x.thePrice %> </p>
+                    <button><a href="/pesan/<%= x.id %>">Buy</a></button>
+                </td>
+            </tr>
+        <% }) %>
     </table>
 </body>
 </html>
