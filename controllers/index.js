@@ -4,17 +4,26 @@
 const { Motive, User, Profile, City, Order } = require('../models/index');
 const bcrypt = require("bcryptjs");
 const ongkir = require('../helpers/ongkir');
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'jomatespairproject@gmail.com',
+    pass: '!@#123qwe'
+  }
+})
+
 class Controller {
   static home(req, res) {
     let IDuser = null
     const sort = req.query.sort
+    let role = null
 
     if (req.session.userId) {
       IDuser = req.session.userId
     }
 
-    let option = {
-    }
+    let option = { }
 
     if (sort) {
       option = {
@@ -23,9 +32,17 @@ class Controller {
       }
     }
 
-    Motive.findAll(option)
+    // User.findByPk(2)
+    // .then(user => {
+    //   console.log(user[0].role);
+    //   role = user[0].role
+    //   console.log(role);
+    //   return 
+      Motive.findAll(option)
+    // })
     .then(motives => {
-      res.render('home', { motives , IDuser})
+      console.log(role);
+      res.render('home', { motives , IDuser, role})
     })
     .catch(err => {
       res.send(err)
@@ -64,6 +81,19 @@ class Controller {
       return User.create({username, password, ProfileId:id})
     })
     .then(() => {
+      let mailOptions = {
+        from: 'jomatespairproject@gmail.com',
+        to: 'jomatespairproject@gmail.com',
+        subject: 'Sudah terdaftar',
+        text: 'Udah kedaftar'
+      }
+      transporter.sendMail(mailOptions, function (error, info) {
+        if(error) {
+          console.log(error);
+        } else {
+          console.log('email sent: ' + info.response);
+        }
+      })
       res.redirect("/login")
     })
     .catch((err) => {
@@ -109,6 +139,7 @@ class Controller {
       console.log(err)
       res.send(err)
     })
+    
   }
 
   static saveOrder (req, res) {
@@ -201,6 +232,14 @@ class Controller {
     .catch(err => {
       res.send(err)
     })
+  }
+
+  static edit (req, res) {
+    console.log(`masoook`);
+  }
+
+  static saveEdit (req, res) {
+    console.log(`masoook`);
   }
 }
 

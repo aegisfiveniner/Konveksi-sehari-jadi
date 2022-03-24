@@ -42,6 +42,8 @@ app.get('/cart', Controller.cart)
 app.get('/delete', Controller.delete)
 app.get('/order/:motiveId', Controller.order)
 app.post('/order/:motiveId', Controller.saveOrder)
+app.get('/edit', Controller.edit)
+app.post('/edit', Controller.saveEdit)
 
 app.get("/logout", Controller.getLogout)
 

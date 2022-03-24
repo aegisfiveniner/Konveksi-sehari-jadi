@@ -7,10 +7,12 @@
     <title>Welcome to Konveksi Sehari Jadi</title>
 </head>
 <body>
-    <button>
-        <a href="/cart">Keranjang</a>
-    </button>
-    <% if (!IDuser) { %>
+    <% if (role !== 'admin') { %>
+        <button>
+            <a href="/cart">Keranjang</a>
+        </button>  
+    <% } %>
+        <% if (!IDuser) { %>
         <button>
             <a href="/login">Login</a>
         </button>
@@ -30,7 +32,11 @@
                     <img width="100" src="<%= x.pictureUrl %>" alt="panjang-kerah" border="0">
                     <br>
                     <p><%= x.thePrice %> </p>
-                    <button><a href="/order/<%= x.id %>">Buy</a></button>
+                    <% if (role === 'admin') { %>
+                        <button><a href="/edit/<%= x.id %>">Edit</a></button>    
+                    <% } else { %>
+                        <button><a href="/order/<%= x.id %>">Buy</a></button>
+                    <% } %>
                 </td>
             </tr>
         <% }) %>
