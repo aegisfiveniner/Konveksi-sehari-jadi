@@ -16,25 +16,43 @@
             <th>Harga</th>
             <th>Action</th>
         </tr>
-        <% orderan.forEach(x => { %>
+        <% orderList.forEach(x => { %>
             <tr>
                 <td><img width="100" src="<%= x.Motive.pictureUrl%>" alt=""></td>
                 <td><%= x.model %></td>
                 <td><%= x.size %></td>
                 <td><%= x.Motive.price%></td>
                 <td>
-                <button><a href="http://">-</a></button>
+                <form action="/orders/<%= orderList.id %>/delete" method="get">
+                    <!-- <input type="submit" value="-"> -->
+                </form>
                 </td>
             </tr>
         <% }) %>
     </table>
 
-    <p>Alamat kirim: <%= orderList.address %></p>
+    <p>Alamat kirim: 
+        <% if (orderList.length === 0) { %>
+        <% } else { %>
+            <%= ongkirs[2] %>
+        <% } %>
+    </p>
 
-    <p>Ongkos kirim: <%= ongkirs[0] %></p>
-    <p>Total: <%= total %></p>
+    <p>Ongkos kirim: 
+        <% if (orderList.length === 0) { %>
+        <% } else { %>
+            <%= ongkirs[0] %>
+        <% } %>
+    </p>
+    <p>Total: 
+        <% if (orderList.length === 0) { %>
+        <% } else { %>
+            <%= Order.getTotal(orderList, ongkirs) %>
+        <% } %>
+        </p>
+    </p>
 
-    <button><a href="/">Bayar</a></button>
+    <button><a href="/delete">Bayar</a></button>
     <button><a href="/">Belanja Lagi</a></button>
     
 </body>

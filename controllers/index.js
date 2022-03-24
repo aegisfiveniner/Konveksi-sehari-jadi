@@ -4,12 +4,28 @@
 const { Motive, User, Profile, City, Order } = require('../models/index');
 const bcrypt = require("bcryptjs");
 const ongkir = require('../helpers/ongkir');
-
 class Controller {
   static home(req, res) {
-    Motive.findAll()
+    let IDuser = null
+    const sort = req.query.sort
+
+    if (req.session.userId) {
+      IDuser = req.session.userId
+    }
+
+    let option = {
+    }
+
+    if (sort) {
+      option = {
+        ...option,
+        order : [['price', 'desc']]
+      }
+    }
+
+    Motive.findAll(option)
     .then(motives => {
-      res.render('home', { motives })
+      res.render('home', { motives , IDuser})
     })
     .catch(err => {
       res.send(err)
@@ -44,7 +60,6 @@ class Controller {
       returning: true,
     })
     .then((profile) => {
-      // console.log(profile)
       const {id} = profile
       return User.create({username, password, ProfileId:id})
     })
@@ -59,11 +74,7 @@ class Controller {
 
   static loginForm (req, res) {
     const {error} = req.query
-    if(error) {
       res.render("loginForm", {error})
-    } else {
-      res.render("loginForm")
-    }
   }
 
   static loginCheck (req, res) {
@@ -78,7 +89,8 @@ class Controller {
 
         if (validPassword) {
           req.session.userId = user.id
-          return Motive.findAll()
+          // return Motive.findAll()
+          return res.redirect('/')
           
         } else {
           const error = "Password salah"
@@ -89,10 +101,10 @@ class Controller {
           return res.redirect(`/login?error=${error}`)
       }
     })
-    .then(motives => {
-      // res.send(motives)
-      res.render('home', { motives , Motive })
-    })
+    // .then(motives => {
+    //   // res.render('home', { motives , Motive })
+
+    // })
     .catch((err) => {
       console.log(err)
       res.send(err)
@@ -100,25 +112,23 @@ class Controller {
   }
 
   static saveOrder (req, res) {
-    console.log(req.body)
-    console.log(req.params)
+    // console.log(req.body)
+    // console.log(req.params)
+    const IDuser = req.session.userId
+    console.log(IDuser);
     const { size, model } = req.body
     const motiveId = req.params.motiveId
-    let motives = null
     let profiles = null
     let ongkirs = null
-    Motive.findByPk(motiveId)
-    .then(motive => {
-      motives = motive
-      return Profile.findByPk(2)
-    })
+    
+    Profile.findByPk(IDuser)
     .then(user => {
       profiles = user
       return City.findAll()
     })
     .then(cities => {
       ongkirs = ongkir(cities, profiles.address)
-      console.log(ongkirs);
+      // console.log(ongkirs);
       let data = {
         size,
         model,
@@ -126,32 +136,48 @@ class Controller {
         ProfileId: profiles.id,
         CityId: ongkirs[1],
       }
-      console.log(data);
-      // res.send({motives, profiles, cities})
+      // console.log(data);
       return Order.create(data)
     })
     .then(() => {
-    // res.send({motives, profiles})
-      return Profile.findByPk(2, {
-        include : { 
-          model : Order,
-          include : Motive
-         }
-      })
-    }).then(orderList => {
-      // res.send(orderList)
-      const orderan = orderList.Orders
-      let total = ongkirs[0]
-      orderan.forEach(x => {
-        total += x.Motive.price
-      });
-      res.render('keranjang', { orderList , orderan, ongkirs, total})
+      res.redirect('/cart')
     })
     .catch(err => {
       console.log(err);
       res.send(err)
     })
   }
+
+  static cart (req, res) {
+    console.log(req.params)
+    const IDuser = req.session.userId
+    let profiles = null
+    let ongkirs = null
+    Profile.findByPk(IDuser)
+    .then(user => {
+      profiles = user
+      return City.findAll()
+    })
+    .then(cities => {
+      ongkirs = ongkir(cities, profiles.address)
+      // console.log(ongkirs);
+    
+      return Order.findAll({
+        include : Motive,
+        where : {
+          ProfileId : IDuser
+        }
+      })
+    }).then(orderList => {
+      // res.send(orderList)
+      res.render('keranjang', { orderList, ongkirs, Order})
+    })
+    .catch(err => {
+      console.log(err);
+      res.send(err)
+    })
+  }
+
   static getLogout (req, res) {
     req.session.destroy((err) => {
       if (err) {
@@ -159,7 +185,21 @@ class Controller {
       } else {
         res.redirect("/login")
       }
+    })
+  }
 
+  static delete (req, res) {
+    const IDuser = req.session.userId
+    Order.destroy({
+      where : {
+        ProfileId : IDuser
+      }
+    })
+    .then(() => {
+      res.redirect('/cart')
+    })
+    .catch(err => {
+      res.send(err)
     })
   }
 }
