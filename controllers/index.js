@@ -71,6 +71,7 @@ class Controller {
         const validPassword = bcrypt.compareSync(password, user.password)
 
         if (validPassword) {
+          req.session.userId = user.id
           return Motive.findAll()
           
         } else {
@@ -89,6 +90,16 @@ class Controller {
     .catch((err) => {
       console.log(err)
       res.send(err)
+    })
+  }
+
+  static getLogout (req, res) {
+    req.session.destroy((err) => {
+      if (err) {
+        res.send(err)
+      } else {
+        res.redirect("/login")
+      }
     })
   }
 }
