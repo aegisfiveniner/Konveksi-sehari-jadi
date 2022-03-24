@@ -12,12 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasMany(models.Order)
-      this.belongsTo(models.City)
-      this.belongsTo(models.Profile)
-      this.belongsTo(models.Motive)
       this.belongsToMany(
         models.Profile, {
-          through: models.Order
+          through: 'Order'
         }
       )
     }

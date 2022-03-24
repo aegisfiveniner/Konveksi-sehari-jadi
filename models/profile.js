@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasOne(models.User)
       this.belongsToMany(
         models.Motive, {
-          through: models.Order
+          through: 'Order'
         }
       )
     }

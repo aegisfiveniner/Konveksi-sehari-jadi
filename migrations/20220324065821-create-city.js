@@ -9,9 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       city: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       price: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       createdAt: {
