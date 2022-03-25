@@ -59,10 +59,10 @@ class Controller {
 
   static loginForm (req, res) {
     const {error} = req.query
-    if(error) {
-      res.render("loginForm", {error})
-    } else {
+    if(!error) {
       res.render("loginForm")
+    } else {
+      res.render("loginForm", {error})
     }
   }
 
@@ -100,8 +100,10 @@ class Controller {
   }
 
   static saveOrder (req, res) {
-    console.log(req.body)
-    console.log(req.params)
+    // console.log(req.body)
+    // console.log(req.params)
+    // console.log(req.session.userId)
+    
     const { size, model } = req.body
     const motiveId = req.params.motiveId
     let motives = null
@@ -118,7 +120,7 @@ class Controller {
     })
     .then(cities => {
       ongkirs = ongkir(cities, profiles.address)
-      console.log(ongkirs);
+      // console.log(ongkirs);
       let data = {
         size,
         model,
@@ -126,7 +128,7 @@ class Controller {
         ProfileId: profiles.id,
         CityId: ongkirs[1],
       }
-      console.log(data);
+      // console.log(data);
       // res.send({motives, profiles, cities})
       return Order.create(data)
     })
@@ -139,15 +141,18 @@ class Controller {
     //   res.send(orderList)
     })
     .catch(err => {
-      console.log(err);
+      // console.log(err);
       res.send(err)
+    })
+  }
 
   static getLogout (req, res) {
     req.session.destroy((err) => {
       if (err) {
         res.send(err)
       } else {
-        res.redirect("/login")
+        const error = "Anda sudah keluar"
+        res.redirect(`/login?error=${error}`)
       }
 
     })

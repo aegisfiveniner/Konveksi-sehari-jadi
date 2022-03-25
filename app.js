@@ -19,8 +19,6 @@ app.use(session({
 
 
 app.get('/', Controller.home)
-app.get('/order/:motiveId', Controller.order)
-app.post('/order/:motiveId', Controller.saveOrder)
 //get register
 
 app.get("/register", Controller.regForm)
@@ -41,7 +39,9 @@ app.use((req, res, next) => {
 })
 
 
-// app.get('/order/:id', Controller.order)
+app.get('/order/:motiveId', Controller.order)
+app.post('/order/:motiveId', Controller.saveOrder)
+
 
 app.get("/logout", Controller.getLogout)
 
