@@ -16,11 +16,12 @@ const transporter = nodemailer.createTransport({
 class Controller {
   static home(req, res) {
     let IDuser = null
-    const sort = req.query.sort
     let role = null
+    const sort = req.query.sort
 
     if (req.session.userId) {
-      IDuser = req.session.userId
+      IDuser = req.session.userId[0]
+      role = req.session.userId[1]
     }
 
     let option = { }
@@ -31,17 +32,9 @@ class Controller {
         order : [['price', 'desc']]
       }
     }
-
-    // User.findByPk(2)
-    // .then(user => {
-    //   console.log(user[0].role);
-    //   role = user[0].role
-    //   console.log(role);
-    //   return 
+    console.log(IDuser);
       Motive.findAll(option)
-    // })
     .then(motives => {
-      console.log(role);
       res.render('home', { motives , IDuser, role})
     })
     .catch(err => {
@@ -97,7 +90,13 @@ class Controller {
       res.redirect("/login")
     })
     .catch((err) => {
-      console.log(err)
+      let errors = []
+      if (err.name === 'SequelizeValidationError') {
+        err.errors.forEach(x => {
+          errors.push(x.message)
+        });
+        err = errors
+      }
       res.send(err)
     })
   }
@@ -118,10 +117,8 @@ class Controller {
         const validPassword = bcrypt.compareSync(password, user.password)
 
         if (validPassword) {
-          req.session.userId = user.id
-          // return Motive.findAll()
+          req.session.userId = [user.id, user.role]
           return res.redirect('/')
-          
         } else {
           const error = "Password salah"
           return res.redirect(`/login?error=${error}`)
@@ -131,10 +128,6 @@ class Controller {
           return res.redirect(`/login?error=${error}`)
       }
     })
-    // .then(motives => {
-    //   // res.render('home', { motives , Motive })
-
-    // })
     .catch((err) => {
       console.log(err)
       res.send(err)
@@ -143,9 +136,7 @@ class Controller {
   }
 
   static saveOrder (req, res) {
-    // console.log(req.body)
-    // console.log(req.params)
-    const IDuser = req.session.userId
+    const IDuser = req.session.userId[0]
     console.log(IDuser);
     const { size, model } = req.body
     const motiveId = req.params.motiveId
@@ -159,7 +150,7 @@ class Controller {
     })
     .then(cities => {
       ongkirs = ongkir(cities, profiles.address)
-      // console.log(ongkirs);
+
       let data = {
         size,
         model,
@@ -167,7 +158,7 @@ class Controller {
         ProfileId: profiles.id,
         CityId: ongkirs[1],
       }
-      // console.log(data);
+
       return Order.create(data)
     })
     .then(() => {
@@ -181,7 +172,7 @@ class Controller {
 
   static cart (req, res) {
     console.log(req.params)
-    const IDuser = req.session.userId
+    const IDuser = req.session.userId[0]
     let profiles = null
     let ongkirs = null
     Profile.findByPk(IDuser)
@@ -191,7 +182,6 @@ class Controller {
     })
     .then(cities => {
       ongkirs = ongkir(cities, profiles.address)
-      // console.log(ongkirs);
     
       return Order.findAll({
         include : Motive,
@@ -200,7 +190,7 @@ class Controller {
         }
       })
     }).then(orderList => {
-      // res.send(orderList)
+
       res.render('keranjang', { orderList, ongkirs, Order})
     })
     .catch(err => {
@@ -220,7 +210,7 @@ class Controller {
   }
 
   static delete (req, res) {
-    const IDuser = req.session.userId
+    const IDuser = req.session.userId[0]
     Order.destroy({
       where : {
         ProfileId : IDuser
@@ -235,11 +225,36 @@ class Controller {
   }
 
   static edit (req, res) {
-    console.log(`masoook`);
+    console.log(req.params);
+    const id = req.params.motiveId
+    Motive.findByPk(id)
+    .then(motive => {
+      res.render('edit', { motive })
+    })
+    .catch(err => {
+      res.send(err)
+    })
   }
 
   static saveEdit (req, res) {
-    console.log(`masoook`);
+    console.log(req.body);
+    console.log(req.params);
+    const id = req.params.motiveId
+    const { pictureUrl, price } = req.body
+    const data = { pictureUrl, price }
+    console.log(id);
+    console.log(data);
+    Motive.update(data, {
+      where : {
+        id : id
+      }
+    })
+    .then(() => {
+      res.redirect('/')
+    })
+    .catch(err => {
+      res.send(err)
+    })
   }
 }
 

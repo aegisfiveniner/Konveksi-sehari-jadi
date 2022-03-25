@@ -21,8 +21,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Profile.init({
-    name: DataTypes.STRING,
-    phone: DataTypes.STRING,
+    name: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : { 
+          msg : `masukkan username`
+        }
+      }
+    },
+    phone: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : { 
+          msg : `masukkan username`
+        }
+      }
+    },
     address: DataTypes.TEXT
   }, {
     sequelize,

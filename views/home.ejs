@@ -32,10 +32,10 @@
                     <img width="100" src="<%= x.pictureUrl %>" alt="panjang-kerah" border="0">
                     <br>
                     <p><%= x.thePrice %> </p>
-                    <% if (role === 'admin') { %>
-                        <button><a href="/edit/<%= x.id %>">Edit</a></button>    
-                    <% } else { %>
+                    <% if (role !== 'admin') { %>
                         <button><a href="/order/<%= x.id %>">Buy</a></button>
+                        <% } else { %>
+                        <button><a href="/edit/<%= x.id %>">Edit</a></button>    
                     <% } %>
                 </td>
             </tr>
