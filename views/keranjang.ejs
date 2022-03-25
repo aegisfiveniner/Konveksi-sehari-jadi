@@ -11,29 +11,49 @@
     <table>
         <tr>
             <th>Pesanan</th>
-            <th>Lengan</th>
-            <th>Kerah</th>
-            <th>Ongkir</th>
+            <th>Model</th>
+            <th>Ukuran</th>
             <th>Harga</th>
-            <th>Total Harga</th>
             <th>Action</th>
         </tr>
-        <tr>
-            <td>Baju</td>
-            <td>Lengan</td>
-            <td>Kerah</td>
-            <td>Ongkir</td>
-            <td>Harga</td>
-            <td>Total Harga</td>
-            <td>'+'</td>
-            <td>'-'</td>
-        </tr>
+        <% orderList.forEach(x => { %>
+            <tr>
+                <td><img width="100" src="<%= x.Motive.pictureUrl%>" alt=""></td>
+                <td><%= x.model %></td>
+                <td><%= x.size %></td>
+                <td><%= x.Motive.price%></td>
+                <td>
+                <form action="/orders/<%= orderList.id %>/delete" method="get">
+                    <!-- <input type="submit" value="-"> -->
+                </form>
+                </td>
+            </tr>
+        <% }) %>
     </table>
 
-    <p>alamat</p>
+    <p>Alamat kirim: 
+        <% if (orderList.length === 0) { %>
+        <% } else { %>
+            <%= ongkirs[2] %>
+        <% } %>
+    </p>
 
-    <button><a href="">Bayar</a></button>
-    <button><a href="">Belanja Lagi</a></button>
+    <p>Ongkos kirim: 
+        <% if (orderList.length === 0) { %>
+        <% } else { %>
+            <%= ongkirs[0] %>
+        <% } %>
+    </p>
+    <p>Total: 
+        <% if (orderList.length === 0) { %>
+        <% } else { %>
+            <%= Order.getTotal(orderList, ongkirs) %>
+        <% } %>
+        </p>
+    </p>
+
+    <button><a href="/delete">Bayar</a></button>
+    <button><a href="/">Belanja Lagi</a></button>
     
 </body>
 </html>

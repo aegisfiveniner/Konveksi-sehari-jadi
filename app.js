@@ -12,7 +12,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     secure: false,
-    sameSite: true
+    sameSite: false
   }
 }))
 
@@ -38,10 +38,10 @@ app.use((req, res, next) => {
   }
 })
 
-
+app.get('/cart', Controller.cart)
+app.get('/delete', Controller.delete)
 app.get('/order/:motiveId', Controller.order)
 app.post('/order/:motiveId', Controller.saveOrder)
-
 
 app.get("/logout", Controller.getLogout)
 
