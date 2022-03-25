@@ -1,6 +1,5 @@
 "use strict"
 
-
 const { Motive, User, Profile, City, Order } = require('../models/index');
 const bcrypt = require("bcryptjs");
 const ongkir = require('../helpers/ongkir');
@@ -32,7 +31,6 @@ class Controller {
         order : [['price', 'desc']]
       }
     }
-    console.log(IDuser);
       Motive.findAll(option)
     .then(motives => {
       res.render('home', { motives , IDuser, role})
@@ -129,7 +127,6 @@ class Controller {
       }
     })
     .catch((err) => {
-      console.log(err)
       res.send(err)
     })
     
@@ -137,7 +134,6 @@ class Controller {
 
   static saveOrder (req, res) {
     const IDuser = req.session.userId[0]
-    console.log(IDuser);
     const { size, model } = req.body
     const motiveId = req.params.motiveId
     let profiles = null
@@ -165,13 +161,11 @@ class Controller {
       res.redirect('/cart')
     })
     .catch(err => {
-      console.log(err);
       res.send(err)
     })
   }
 
   static cart (req, res) {
-    console.log(req.params)
     const IDuser = req.session.userId[0]
     let profiles = null
     let ongkirs = null
@@ -194,7 +188,6 @@ class Controller {
       res.render('keranjang', { orderList, ongkirs, Order})
     })
     .catch(err => {
-      console.log(err);
       res.send(err)
     })
   }
@@ -225,7 +218,6 @@ class Controller {
   }
 
   static edit (req, res) {
-    console.log(req.params);
     const id = req.params.motiveId
     Motive.findByPk(id)
     .then(motive => {
@@ -237,13 +229,11 @@ class Controller {
   }
 
   static saveEdit (req, res) {
-    console.log(req.body);
-    console.log(req.params);
+
     const id = req.params.motiveId
     const { pictureUrl, price } = req.body
     const data = { pictureUrl, price }
-    console.log(id);
-    console.log(data);
+
     Motive.update(data, {
       where : {
         id : id
