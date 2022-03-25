@@ -101,11 +101,9 @@ class Controller {
 
   static loginForm (req, res) {
     const {error} = req.query
-    if(!error) {
-      res.render("loginForm")
-    } else {
+    
       res.render("loginForm", {error})
-    }
+    
   }
 
   static loginCheck (req, res) {
