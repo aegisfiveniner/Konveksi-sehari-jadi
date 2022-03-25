@@ -101,7 +101,11 @@ class Controller {
 
   static loginForm (req, res) {
     const {error} = req.query
+    if(!error) {
+      res.render("loginForm")
+    } else {
       res.render("loginForm", {error})
+    }
   }
 
   static loginCheck (req, res) {
@@ -197,7 +201,8 @@ class Controller {
       if (err) {
         res.send(err)
       } else {
-        res.redirect("/login")
+        const error = "Anda sudah keluar"
+        res.redirect(`/login?error=${error}`)
       }
     })
   }
