@@ -213,7 +213,7 @@ class Controller {
       }
     })
     .then(() => {
-      res.redirect('/cart')
+      res.render('suksesBayar')
     })
     .catch(err => {
       res.send(err)
